@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<dt>
+  <dataTypes>
+    <name>float</name>
+    <formatDesc>Any number</formatDesc>
+    <invalidChars>[^0-9\-\.]</invalidChars>
+    <validPattern>^(\-)?\d*\.?\d*$</validPattern>
+    <validValuePattern>^(\-)?\d*\.?\d+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>integer</name>
+    <formatDesc>Integer</formatDesc>
+    <invalidChars>[^0-9\-]</invalidChars>
+    <validPattern>^(\-)?\d*$</validPattern>
+    <validValuePattern>^(\-)?\d+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>noneNegativeInteger</name>
+    <formatDesc>None negative integer</formatDesc>
+    <invalidChars>[^0-9]</invalidChars>
+    <validPattern>^\d*$</validPattern>
+    <validValuePattern>^\d+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>ip</name>
+    <formatDesc>IP address (ddd.ddd.ddd.ddd) eg: 127.0.0.1</formatDesc>
+    <invalidChars>[^0-9\.]</invalidChars>
+    <validPattern>^((2?((5?[0-5]?)|([0-4]?\d?)))|([01]?\d{0,2}))?(\.)?((2?((5?[0-5]?)|([0-4]?\d?)))|([01]?\d{0,2}))?\7?((2?((5?[0-5]?)|([0-4]?\d?)))|([01]?\d{0,2}))?\7?((2?((5?[0-5]?)|([0-4]?\d?)))|([01]?\d{0,2}))?$</validPattern>
+    <validValuePattern>^((2((5[0-5])|([0-4]\d)))|([01]?\d{0,2}))(\.)((2((5[0-5])|([0-4]\d)))|([01]?\d{0,2}))\7((2((5[0-5])|([0-4]\d)))|([01]?\d{0,2}))\7((2((5[0-5])|([0-4]\d)))|([01]?\d{0,2}))$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>alpha</name>
+    <formatDesc>Alpha characters form A to Z, case insensitive. Including space.</formatDesc>
+    <invalidChars>[^a-zA-Z ]</invalidChars>
+    <validPattern>^[a-zA-Z ]*$</validPattern>
+    <validValuePattern>^[a-zA-Z ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>alphanumeric</name>
+    <formatDesc>Alpha-numeric characters form A to Z and 0 to 9, case insensitive. Including space.</formatDesc>
+    <invalidChars>[^a-zA-Z0-9 ]</invalidChars>
+    <validPattern>^[a-zA-Z0-9 ]*$</validPattern>
+    <validValuePattern>^[a-zA-Z0-9 ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>hebalpha</name>
+    <formatDesc>Hebrew alpha characters form א to ת. Including space.</formatDesc>
+    <invalidChars>[^\u05d0-\u05eaא-ת ]</invalidChars>
+    <validPattern>^[\u05d0-\u05eaא-ת ]*$</validPattern>
+    <validValuePattern>^[\u05d0-\u05eaא-ת ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>hebalphanumeric</name>
+    <formatDesc>Hebrew alpha-numeric characters form א to ת and 0 to 9. Including space.</formatDesc>
+    <invalidChars>[^0-9\u05d0-\u05eaא-ת ]</invalidChars>
+    <validPattern>^[0-9\u05d0-\u05eaא-ת ]*$</validPattern>
+    <validValuePattern>^[0-9\u05d0-\u05eaא-ת ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>hebenalpha</name>
+    <formatDesc>Hebrew alpha characters form א to ת. Including space.</formatDesc>
+    <invalidChars>[^a-zA-Z\u05d0-\u05eaא-ת ]</invalidChars>
+    <validPattern>^[a-zA-Z\u05d0-\u05eaא-ת ]*$</validPattern>
+    <validValuePattern>^[a-zA-Z\u05d0-\u05eaא-ת ]+</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>hebenalphanumeric</name>
+    <formatDesc>Latin and Hebrew alpha-numeric characters form A to Z, א to ת and 0 to 9, case insensitive. Including space.</formatDesc>
+    <invalidChars>[^a-zA-Z0-9\u05d0-\u05eaא-ת ]</invalidChars>
+    <validPattern>^[a-zA-Z0-9\u05d0-\u05eaא-ת ]*$</validPattern>
+    <validValuePattern>^[a-zA-Z0-9\u05d0-\u05eaא-ת ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>date</name>
+    <formatDesc>Date (dd/mm/yyyy)</formatDesc>
+    <invalidChars>[^0-9\/\-]</invalidChars>
+    <validPattern>^((0?[1-9]?)|([12]?\d?)|(3?[01]?))?([\-\/])?((0?[1-9]?)|(1?[0-2]?))?\5?([0-2]?\d{0,3})$</validPattern>
+    <validValuePattern>^((0[1-9])|([12]?\d)|(3[01]))([\-\/])((0?[1-9])|(1[0-2]))\5([0-2]\d{3})$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>timestamp</name>
+    <formatDesc>Timestamp - date and time (yyyymmdd hh:mm:ss)</formatDesc>
+    <invalidChars>[^0-9: ]</invalidChars>
+    <validPattern>^([0-2]?\d{0,3})?((0?[1-9]?)|(1?[0-2]?))?((0?[1-9]?)|([12]?\d?)|(3?[01]?))?([ ])?(([01]?\d?)|(2?[0-3]?))?(:)?([0-5]?\d?)?(:)?([0-5]?\d?)?$</validPattern>
+    <validValuePattern>^([0-2]\d{3})((0[1-9])|(1[0-2]))((0[1-9])|([12]\d)|(3[01]))([ ])(([01]\d)|(2[0-3]))(:)([0-5]\d)(:)([0-5]\d)$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>Time</name>
+    <formatDesc>Time (hh:mm:ss)</formatDesc>
+    <invalidChars>[^0-9:]</invalidChars>
+    <validPattern>^(([01]?\d?)|(2?[0-3]?))?(:)?([0-5]?\d?)?(:)?([0-5]?\d?)?$</validPattern>
+    <validValuePattern>^(([01]\d)|(2[0-3]))(:)([0-5]\d)(:)([0-5]\d)$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>any</name>
+    <formatDesc>Any and all characters</formatDesc>
+    <invalidChars>[\u0014]</invalidChars>
+    <validPattern>[^\u0014]</validPattern>
+    <validValuePattern>"^[\s\S]*$</validValuePattern>
+  </dataTypes>
+</dt>

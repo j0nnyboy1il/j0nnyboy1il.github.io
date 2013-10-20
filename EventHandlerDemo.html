@@ -1,0 +1,722 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Data types event handler demo</title>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="cache-control" content="no-cache"/>
+	<script type="text/javascript" src="eventHandler.js"></script>
+	<script type="text/javascript" src="tv4.js"></script>
+	<script type="text/javascript" src="jquery-2.0.3.min.js"></script>
+	<style type="text/css">
+		html
+		{
+			font-family:Arial;
+			font-size:12px;
+		}
+		
+		textarea
+		{
+			border-radius	: 5px;
+			border-color	: lightgray;
+			font-family		: Courier New;
+			font-size		: 12px;
+			height			: 100px;
+			white-space		: pre;
+			overflow-x		: auto;
+		}
+		
+		.demoInput
+		{	
+			border-radius	: 3px;
+			border			: 1px solid lightgray;
+			padding			: 2px;
+			font-family		: Courier New;
+			font-size 		: 12px;
+			width			: 100%;
+		}
+		
+		.urlInput
+		{
+			border-radius	: 3px;
+			border			: 1px solid lightgray;
+			padding			: 2px;
+			font-family		: Courier New;
+			font-size 		: 12px;
+			width			: 100%;
+		}
+		
+		.spacer
+		{
+			height			: 1px;
+			line-height		: 1px;
+		}
+		.np
+		{
+			padding			: 0px 2px 0px 2px; 
+			white-space		: nowrap;
+			text-align		: left;
+		}
+		
+		.sourceElement
+		{
+			width			: 1000px;
+			background-color: #FDFDFD;	
+			border-radius	: 10px;
+			border			: 1px solid gray;
+			padding			: 10px 10px 10px 10px;
+			margin			: 5px 0px 5px 0px; 
+		}
+		
+		.sourcesTbl
+		{
+			width				: inherit;
+		/*	border-spacing		: 5px;
+			border-collapse		: collapse;
+			padding				: 5px 5px 5px 5px;
+			margin				: 5px 5px 5px 5px;
+		*/
+		}
+		
+		#taFunc
+		{
+			background-color	: transparent;
+			border-style		: none; 
+		}
+		
+		.code
+		{
+			width				: inherit;
+			background-color	: #FFFFBB;	
+			border-radius		: 10px;
+			font-family			: Courier New;
+			font-size			: 12px;
+			padding				: 5px;
+		}
+		
+		.errMsg
+		{
+			padding				: 0px 5px 0px 5px;
+			font-weight			: bold;
+			white-space			: nowrap;
+			text-align			: left;
+			color				: red;
+		}
+	</style>
+	
+</head>
+<body>
+<div style="padding: 10px;">
+	<form id="frmDemo" name="frmDemo" onsubmit="return formValidation()">
+	<table id="demoTbl" style="width:100%;">
+		<thead id="demoTblHead">
+			<tr>
+				<td align="right" valign="top" colspan="2"><b>Validation options</b></td>
+				<td valign="top" colspan="2">
+					<input type="checkbox" id="ckPostEventValidation" checked="true"/> Post event value validation<br/>
+					<input type="checkbox" id="ckRemoveInvalidChars" checked="true"/> Remove invalid chars from event value
+				</td>
+			</tr>
+			<tr>
+				<td><b>Format name</b></td>
+				<td><b>Format description</b></td>
+				<td><b>Test input</b></td>
+				<td style="width:100%;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="spacer"><img src="images/spacer.gif" height="1" width="150"/></td>
+				<td class="spacer"><img src="images/spacer.gif" height="1" width="250"/></td>
+				<td class="spacer"><img src="images/spacer.gif" height="1" width="400"/></td>
+				<td class="spacer"><img src="images/spacer.gif" height="1" width="200"/></td>
+			</tr>
+		</thead>
+		<tbody id="demoTblBody">
+		</tbody>
+		<tfoot id="demoTblFooter">
+			<tr>
+				<td colspan="2">&nbsp;</td>
+				<td><input type="submit" value="Validate values"/></td>
+				<td>&nbsp;</td>
+			</tr>
+		</tfoot>
+	</table>
+	</form>
+	<a name="aTblBodySources"></a>
+	<input id="btnModifyToggle" type="button" value="Setup" style="font-weight:bold;"/><br>
+</div>
+<div id="divSources" class="sourceElement">
+	<table class="sourcesTbl" border="0" cellspacing="0" cellpadding="5">
+		<tr>
+			<td valign="top" class="np" style="width:250px;">Select data type source:</td>
+			<td valign="top" class="np" style="width:150px;">
+				<select id="selSource">
+					<option value="JSON_source" selected="selected">JSON</option>
+					<option value="XML_source">XML</option>
+					<option value="URL_source">Remote</option>
+				</select>
+			</td>
+			<td valign="top" style="width:100%;">
+				<textarea id="JSON_source" name="JSON_source" style="width:inherit;" placeholder="Type data types in JSON format">
+{
+  "dataTypes":[
+    {
+      "name":"float",
+      "invalidChars":"[^0-9\\-\\.]",
+      "validPattern":"^(\\-)?\\d*\\.?\\d*$",
+      "validValuePattern":"^(\\-)?\\d*\\.?\\d+$",
+      "formatDesc":"Any number"
+    },
+    {
+      "name":"integer",
+      "invalidChars":"[^0-9\\-]",
+      "validPattern":"^(\\-)?\\d*$",
+      "validValuePattern":"^(\\-)?\\d+$",
+      "formatDesc":"Integer"
+    },
+    {
+      "name":"noneNegativeInteger",
+      "invalidChars":"[^0-9]",
+      "validPattern":"^\\d*$",
+      "validValuePattern":"^\\d+$",
+      "formatDesc":"None negative integer"
+    },
+    {
+      "name":"ip",
+      "invalidChars":"[^0-9\\.]",
+      "validPattern":"^((2?((5?[0-5]?)|([0-4]?\\d?)))|([01]?\\d{0,2}))?(\\.)?((2?((5?[0-5]?)|([0-4]?\\d?)))|([01]?\\d{0,2}))?\\7?((2?((5?[0-5]?)|([0-4]?\\d?)))|([01]?\\d{0,2}))?\\7?((2?((5?[0-5]?)|([0-4]?\\d?)))|([01]?\\d{0,2}))?$",
+      "validValuePattern":"^((2((5[0-5])|([0-4]\\d)))|([01]?\\d{0,2}))(\\.)((2((5[0-5])|([0-4]\\d)))|([01]?\\d{0,2}))\\7((2((5[0-5])|([0-4]\\d)))|([01]?\\d{0,2}))\\7((2((5[0-5])|([0-4]\\d)))|([01]?\\d{0,2}))$",
+      "formatDesc":"IP address (ddd.ddd.ddd.ddd) eg: 127.0.0.1"
+    },
+    {
+      "name":"alpha",
+      "invalidChars":"[^a-zA-Z ]",
+      "validPattern":"^[a-zA-Z ]*$",
+      "validValuePattern":"^[a-zA-Z ]+$",
+      "formatDesc":"Alpha characters form A to Z, case insensitive. Including space."
+    },
+    {
+      "name":"alphanumeric",
+      "invalidChars":"[^a-zA-Z0-9 ]",
+      "validPattern":"^[a-zA-Z0-9 ]*$",
+      "validValuePattern":"^[a-zA-Z0-9 ]+$",
+      "formatDesc":"Alpha-numeric characters form A to Z and 0 to 9, case insensitive. Including space."
+    },
+    {
+      "name":"hebalpha",
+      "invalidChars":"[^\\u05d0-\\u05eaא-ת ]",
+      "validPattern":"^[\\u05d0-\\u05eaא-ת ]*$",
+      "validValuePattern":"^[\\u05d0-\\u05eaא-ת ]+$",
+	  "formatDesc":"Hebrew alpha characters form א to ת. Including space."
+    },
+    {
+      "name":"hebalphanumeric",
+      "invalidChars":"[^0-9\\u05d0-\\u05eaא-ת ]",
+      "validPattern":"^[0-9\\u05d0-\\u05eaא-ת ]*$",
+      "validValuePattern":"^[0-9\\u05d0-\\u05eaא-ת ]+$",
+      "formatDesc":"Hebrew alpha-numeric characters form א to ת and 0 to 9. Including space."
+    },
+    {
+      "name":"hebenalpha",
+      "invalidChars":"[^a-zA-Z\\u05d0-\\u05eaא-ת ]",
+      "validPattern":"^[a-zA-Z\\u05d0-\\u05eaא-ת ]*$",
+      "validValuePattern":"^[a-zA-Z\\u05d0-\\u05eaא-ת ]+$",
+      "formatDesc":"Hebrew alpha characters form א to ת. Including space."
+    },
+    {
+      "name":"hebenalphanumeric",
+      "invalidChars":"[^a-zA-Z0-9\\u05d0-\\u05eaא-ת ]",
+      "validPattern":"^[a-zA-Z0-9\\u05d0-\\u05eaא-ת ]*$",
+      "validValuePattern":"^[a-zA-Z0-9\\u05d0-\\u05eaא-ת ]+$",
+      "formatDesc":"Hebrew alpha-numeric characters form א to ת and 0 to 9. Including space."
+    },
+    {
+      "name":"date",
+      "invalidChars":"[^0-9\\/\\-]",
+      "validPattern":"^((0?[1-9]?)|([12]?\\d?)|(3?[01]?))?([\\-\\\/])?((0?[1-9]?)|(1?[0-2]?))?\\5?([0-2]?\\d{0,3})$",
+      "validValuePattern":"^((0[1-9])|([12]?\\d)|(3[01]))([\\-\\\/])((0?[1-9])|(1[0-2]))\\5([0-2]\\d{3})$",
+      "formatDesc":"Date (dd/mm/yyyy)"
+    },
+    {
+      "name":"timestamp",
+      "invalidChars":"[^0-9: ]",
+      "validPattern":"^([0-2]?\\d{0,3})?((0?[1-9]?)|(1?[0-2]?))?((0?[1-9]?)|([12]?\\d?)|(3?[01]?))?([ ])?(([01]?\\d?)|(2?[0-3]?))?(:)?([0-5]?\\d?)?(:)?([0-5]?\\d?)?$",
+      "validValuePattern":"^([0-2]\\d{3})((0[1-9])|(1[0-2]))((0[1-9])|([12]\\d)|(3[01]))([ ])(([01]\\d)|(2[0-3]))(:)([0-5]\\d)(:)([0-5]\\d)$",
+      "formatDesc":"Timestamp - date and time (yyyymmdd hh:mm:ss)"
+    },
+    {
+      "name":"time",
+      "invalidChars":"[^0-9:]",
+      "validPattern":"^(([01]?\\d?)|(2?[0-3]?))?(:)?([0-5]?\\d?)?(:)?([0-5]?\\d?)?$",
+      "validValuePattern":"^(([01]\\d)|(2[0-3]))(:)([0-5]\\d)(:)([0-5]\\d)$",
+      "formatDesc":"Time (hh:mm:ss)"
+    },
+    {
+      "name":"any",
+      "invalidChars":"[\\u0014]",
+      "validPattern":"[^\\u0014]",
+      "validValuePattern":"^[\\s\\S]*$",
+      "formatDesc":"Any and all characters"
+    } 
+  ]
+}</textarea>
+				<textarea id="XML_source" name="XML_source" style="width:inherit;" placeholder="Type data types in XML format">
+<?xml version="1.0" encoding="UTF-8"?>
+<dt>
+  <dataTypes>
+    <name>float</name>
+    <formatDesc>Any number</formatDesc>
+    <invalidChars>[^0-9\-\.]</invalidChars>
+    <validPattern>^(\-)?\d*\.?\d*$</validPattern>
+    <validValuePattern>^(\-)?\d*\.?\d+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>integer</name>
+    <formatDesc>Integer</formatDesc>
+    <invalidChars>[^0-9\-]</invalidChars>
+    <validPattern>^(\-)?\d*$</validPattern>
+    <validValuePattern>^(\-)?\d+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>noneNegativeInteger</name>
+    <formatDesc>None negative integer</formatDesc>
+    <invalidChars>[^0-9]</invalidChars>
+    <validPattern>^\d*$</validPattern>
+    <validValuePattern>^\d+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>ip</name>
+    <formatDesc>IP address (ddd.ddd.ddd.ddd) eg: 127.0.0.1</formatDesc>
+    <invalidChars>[^0-9\.]</invalidChars>
+    <validPattern>^((2?((5?[0-5]?)|([0-4]?\d?)))|([01]?\d{0,2}))?(\.)?((2?((5?[0-5]?)|([0-4]?\d?)))|([01]?\d{0,2}))?\7?((2?((5?[0-5]?)|([0-4]?\d?)))|([01]?\d{0,2}))?\7?((2?((5?[0-5]?)|([0-4]?\d?)))|([01]?\d{0,2}))?$</validPattern>
+    <validValuePattern>^((2((5[0-5])|([0-4]\d)))|([01]?\d{0,2}))(\.)((2((5[0-5])|([0-4]\d)))|([01]?\d{0,2}))\7((2((5[0-5])|([0-4]\d)))|([01]?\d{0,2}))\7((2((5[0-5])|([0-4]\d)))|([01]?\d{0,2}))$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>alpha</name>
+    <formatDesc>Alpha characters form A to Z, case insensitive. Including space.</formatDesc>
+    <invalidChars>[^a-zA-Z ]</invalidChars>
+    <validPattern>^[a-zA-Z ]*$</validPattern>
+    <validValuePattern>^[a-zA-Z ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>alphanumeric</name>
+    <formatDesc>Alpha-numeric characters form A to Z and 0 to 9, case insensitive. Including space.</formatDesc>
+    <invalidChars>[^a-zA-Z0-9 ]</invalidChars>
+    <validPattern>^[a-zA-Z0-9 ]*$</validPattern>
+    <validValuePattern>^[a-zA-Z0-9 ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>hebalpha</name>
+    <formatDesc>Hebrew alpha characters form א to ת. Including space.</formatDesc>
+    <invalidChars>[^\u05d0-\u05eaא-ת ]</invalidChars>
+    <validPattern>^[\u05d0-\u05eaא-ת ]*$</validPattern>
+    <validValuePattern>^[\u05d0-\u05eaא-ת ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>hebalphanumeric</name>
+    <formatDesc>Hebrew alpha-numeric characters form א to ת and 0 to 9. Including space.</formatDesc>
+    <invalidChars>[^0-9\u05d0-\u05eaא-ת ]</invalidChars>
+    <validPattern>^[0-9\u05d0-\u05eaא-ת ]*$</validPattern>
+    <validValuePattern>^[0-9\u05d0-\u05eaא-ת ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>hebenalpha</name>
+    <formatDesc>Hebrew alpha characters form א to ת. Including space.</formatDesc>
+    <invalidChars>[^a-zA-Z\u05d0-\u05eaא-ת ]</invalidChars>
+    <validPattern>^[a-zA-Z\u05d0-\u05eaא-ת ]*$</validPattern>
+    <validValuePattern>^[a-zA-Z\u05d0-\u05eaא-ת ]+</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>hebenalphanumeric</name>
+    <formatDesc>Latin and Hebrew alpha-numeric characters form A to Z, א to ת and 0 to 9, case insensitive. Including space.</formatDesc>
+    <invalidChars>[^a-zA-Z0-9\u05d0-\u05eaא-ת ]</invalidChars>
+    <validPattern>^[a-zA-Z0-9\u05d0-\u05eaא-ת ]*$</validPattern>
+    <validValuePattern>^[a-zA-Z0-9\u05d0-\u05eaא-ת ]+$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>date</name>
+    <formatDesc>Date (dd/mm/yyyy)</formatDesc>
+    <invalidChars>[^0-9\/\-]</invalidChars>
+    <validPattern>^((0?[1-9]?)|([12]?\d?)|(3?[01]?))?([\-\/])?((0?[1-9]?)|(1?[0-2]?))?\5?([0-2]?\d{0,3})$</validPattern>
+    <validValuePattern>^((0[1-9])|([12]?\d)|(3[01]))([\-\/])((0?[1-9])|(1[0-2]))\5([0-2]\d{3})$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>timestamp</name>
+    <formatDesc>Timestamp - date and time (yyyymmdd hh:mm:ss)</formatDesc>
+    <invalidChars>[^0-9: ]</invalidChars>
+    <validPattern>^([0-2]?\d{0,3})?((0?[1-9]?)|(1?[0-2]?))?((0?[1-9]?)|([12]?\d?)|(3?[01]?))?([ ])?(([01]?\d?)|(2?[0-3]?))?(:)?([0-5]?\d?)?(:)?([0-5]?\d?)?$</validPattern>
+    <validValuePattern>^([0-2]\d{3})((0[1-9])|(1[0-2]))((0[1-9])|([12]\d)|(3[01]))([ ])(([01]\d)|(2[0-3]))(:)([0-5]\d)(:)([0-5]\d)$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>Time</name>
+    <formatDesc>Time (hh:mm:ss)</formatDesc>
+    <invalidChars>[^0-9:]</invalidChars>
+    <validPattern>^(([01]?\d?)|(2?[0-3]?))?(:)?([0-5]?\d?)?(:)?([0-5]?\d?)?$</validPattern>
+    <validValuePattern>^(([01]\d)|(2[0-3]))(:)([0-5]\d)(:)([0-5]\d)$</validValuePattern>
+  </dataTypes>
+  <dataTypes>
+    <name>any</name>
+    <formatDesc>Any and all characters</formatDesc>
+    <invalidChars>[\u0014]</invalidChars>
+    <validPattern>[^\u0014]</validPattern>
+    <validValuePattern>"^[\s\S]*$</validValuePattern>
+  </dataTypes>
+</dt></textarea>
+  			<input list="filesList" id="URL_source" name="URL_source" class="urlInput" placeholder="Select or type a url of a JSON or XML source">
+				<datalist id="filesList">
+				  <option value="dataTypes.json"></option>
+				  <option value="dataTypes.xml"></option>
+				</datalist>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>
+				<input id="btnLoad" type="button" value="Load Data Types"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="np">Add Data type</td>
+			<td class="np">Name</td>
+			<td>
+				<input id="txtDtName" value="" class="urlInput"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="np">&nbsp;</td>
+			<td class="np">Format description</td>
+			<td>
+				<input id="txtDtFormatDesc" value="" class="urlInput"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="np">&nbsp;</td>
+			<td class="np">Invalid chars pattern</td>
+			<td>
+				<input id="txtDtInvalidChars" value="" class="urlInput"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="np">&nbsp;</td>
+			<td class="np">Valid pattern</td>
+			<td>
+				<input id="txtDtValidPattern" value="" class="urlInput"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="np">&nbsp;</td>
+			<td class="np">Valid value pattern</td>
+			<td>
+				<input id="txtDtValidValuePattern" value="" class="urlInput"/>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>
+				<input id="btnAddNewDataType" type="button" value="Add New Data Types" onclick="addNewDataType()"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" valign="top">Modify demo event handler function</td>
+			<td>
+				<div class="code">
+					<b><i>function customizedEventHandler(e)<br/>{</i></b><br/>
+					<textarea id="taFunc" style="width:99%;"></textarea><br/>
+					<b><i>}</i></b>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td>
+				<input id="btnApplyFunc" type="button" value="Apply" onclick="compileIt()"> 
+				<input id="btnResetFunc" type="button" value="Reset" onclick="resetFunctionHandler()">
+			</td>
+		</tr>
+	</table>
+</div>
+</body>
+<script type="text/javascript" id="scrDemoHandler">
+function demoMessageHandler(e)
+{
+	var isValidInput = genericEventHandler(e); // the genericEventHandler function must be called
+	var objId = "#" + errTdIdPrefix + e.target.getAttribute(DATA_TYPE_ATTRIBUTE_NAME);
+	console.log(e.target, objId);
+	var msgText = "";
+	if(isValidInput)
+	{
+		// custom action such as dependencies validation can be carried here
+		msgText = noErrMsgText;
+	}
+	else
+	{
+		// palce you custom error handling here
+		msgText = "Demo notification.\nInvalid " + e.type +"!";
+	}
+	
+	$(objId).text(msgText);
+	
+	return isValidInput; // genericEventHandler return value should be returned
+}
+</script>
+<script type="text/javascript" id="scrValidation">
+function formValidation()
+{
+	
+	return false;
+}
+</script>
+<script type="text/javascript" id="scrJQ">
+var localDto;
+var demoFuncName						= "demoMessageHandler";
+var testFuncName						= "testFunc";
+var defaultFuncOnEventKeyValue			= "return " + demoFuncName + "(event)";
+var testFuncOnEventKeyValue				= "return " + testFuncName + "(event)";
+var errTdIdPrefix						= "errMsgTd_";
+var noErrMsgText						= "\u00a0";
+var hrefPath = window.location.href;
+if(hrefPath && hrefPath.lastIndexOf("\/")>0 )
+	hrefPath = hrefPath.substring(0, hrefPath.lastIndexOf("\/")+1);
+
+function addNewDataType()
+{
+	var dtName					= document.getElementById("txtDtName").value; //$("#txtDtName").val();
+	var dtReInvalidChars 		= document.getElementById("txtDtInvalidChars").value;  //$("#txtDtInvalidChars").val();
+	var dtReValidPattern 		= document.getElementById("txtDtValidPattern").value; //$("#txtDtValidPattern").val();
+	var dtReValidValuePattern	= document.getElementById("txtDtValidValuePattern").value; //$("#txtDtValidValuePattern").val();
+	var dtDesc					= document.getElementById("txtDtFormatDesc").value; //$("#txtDtFormatDesc").val();
+		
+	var result = localDto.addType(	dtName, dtReInvalidChars, dtReValidPattern, dtReValidValuePattern, dtDesc);
+	
+	if(isString(result))
+	{
+		alert(result);
+	}
+	else
+	{
+		appendDemoDataType(	localDto.types.dataTypes.length,
+							dtName,
+							dtDesc );
+		
+		$("#JSON_source").val( localDto.toString() );
+		$("#XML_source").val( localDto.toXmlString() );
+	}
+	console.log(dtName, dtDesc, dtReInvalidChars, dtReValidPattern);
+}
+
+function sourceSelection()
+{
+	$("#selSource option").each( showSelectedSource );
+}
+
+function showSelectedSource()
+{
+	var objId = "#" + this.value;
+	if( this.selected )
+	{
+		$(objId).show();
+	}
+	else
+	{
+		$(objId).hide();
+	}
+}
+
+function appendDemoDataType(i, dtName, dtFormatDesc, dtValidValuePattern)
+{
+	var tr, tdName, tdDesc, tdInput, tdErrMsg, inputTxt;
+	tr						= document.createElement("tr");
+	tr.id					= "trDataType_"+i;
+	tdName					= document.createElement("td");
+	tdName.innerHTML		= dtName;
+	tdDesc					= document.createElement("td");
+	tdDesc.innerHTML		= dtFormatDesc;
+	tdInput					= document.createElement("td");
+	inputTxt				= document.createElement("input");
+	inputTxt.type			= "text";
+	inputTxt.setAttribute(DATA_TYPE_ATTRIBUTE_NAME, dtName);
+	inputTxt.setAttribute("title", dtFormatDesc);
+	if(isNonZeroLengthString(dtValidValuePattern))
+		inputTxt.setAttribute(ONSUBMIT_VALIDATION_ATTRIBUTE_NAME, dtValidValuePattern);
+	inputTxt.setAttribute("class","demoInput");
+	for(var idx in HANDLED_EVENTS_ARR)
+	{
+		inputTxt.setAttribute("on"+HANDLED_EVENTS_ARR[idx], defaultFuncOnEventKeyValue);
+	}
+	inputTxt.placeholder	= "Type, paste or drag a " + dtName + " text here";
+	
+	tdInput.appendChild(inputTxt);
+	
+	tdErrMsg				= document.createElement("td");
+	tdErrMsg.setAttribute("id", errTdIdPrefix + dtName);
+	tdErrMsg.setAttribute("class","errMsg");
+	tdErrMsg.innerHTML		= noErrMsgText;
+	
+	tr.appendChild(tdName);
+	tr.appendChild(tdDesc);
+	tr.appendChild(tdInput);
+	tr.appendChild(tdErrMsg);
+	
+	document.getElementById("demoTblBody").appendChild(tr);
+}
+
+function setDemoInputs()
+{
+	if( localDto.isReady() || localDto.isDefault() )
+	{
+		$("#demoTblBody tr").remove();
+		
+		var dataTypesStub = localDto.getTypes();
+		
+		for(var i in dataTypesStub)
+		{
+			var tempDt = localDto.getType(dataTypesStub[i]);
+			appendDemoDataType(	i,
+									dataTypesStub[i],
+									tempDt.formatDesc,
+									tempDt.validValuePattern
+								);
+		}
+		
+		setPostEventValidation();
+		setRemoveInvalidChars();
+	}
+	else if( localDto.isError())
+	{
+		alert(localDto.error[ERROR_MESSAGE_PROP_NAME]);
+	}
+}
+
+function loadSource()
+{
+	var selectedSource = $("#selSource option:selected").val();
+	var sourceInput = $("#"+selectedSource).val();
+	console.log("load source called", selectedSource, sourceInput);
+	localDto.load(sourceInput, setDemoInputs);
+	//console.log("localDto.toString():", localDto.toString());
+	//console.log("localDto.toXml():", localDto.toXml());
+	//console.log("localDto.toXmlString():", localDto.toXmlString());
+}
+
+function setPostEventValidation()
+{
+	$("#demoTblBody input").each( 
+			function()
+			{
+				$(this).attr(POST_EVENT_VALIDATION_ATTRIBUTE_NAME, $("#ckPostEventValidation").prop("checked"));
+			}
+		);
+}
+
+function setRemoveInvalidChars()
+{
+	$("#demoTblBody input").each( 
+			function()
+			{
+				$(this).attr(DELETE_INVALID_CHARS_ATTRIBUTE_NAME, $("#ckRemoveInvalidChars").prop("checked"));
+			}
+		)
+}
+
+$("#selSource").change(sourceSelection);
+$("#btnLoad").click(loadSource);
+$("#ckPostEventValidation").click(setPostEventValidation);
+$("#ckRemoveInvalidChars").click(setRemoveInvalidChars);
+
+$("#btnModifyToggle").click(
+	function()
+	{
+		$("#divSources").toggle();
+		location.href = "#aTblBodySources";
+	}
+	).click();
+
+$(document).ready(
+	function()
+	{
+		localDto = new DataTypes();
+ 		sourceSelection();
+		loadSource();
+		setTaFuncDefaultValue();
+		if(hrefPath)
+		{
+			$("<option>").prependTo("#filesList");
+			$("#filesList option").each( function()
+					{
+						//var value = this.value;
+						this.value = hrefPath + this.value;
+					}	
+				);
+		}
+		/*else
+		{
+			$("#filesList option[value='']").remove();
+		}*/
+	}
+);
+/*
+function escapeSlashs(strPatt)
+{
+	var temp = strPatt.replace(/\\/gi,"\\\\");
+	return temp;
+}
+*/
+//$("#btnAddNewDataType").click(addNewDataType);
+
+function setTaFuncDefaultValue()
+{
+	var demoHandlerFunc		= $("#scrDemoHandler").text();
+	var demoHandlerFuncBody	= demoHandlerFunc.replace(/^([\s\S]*?\{)([\s\S]*)(\})$/gm, "$2").replace(/\t/gm,"  ");
+	$("#taFunc").val(demoHandlerFuncBody.substring(1,demoHandlerFuncBody.length-2));
+}
+
+function compileIt()
+{
+//
+	var scriptText	= document.getElementById("taFunc").value;
+	var oldScript	= document.getElementById("scriptContainer");
+	var newScript;
+	
+	if (oldScript)
+	{
+		oldScript.parentNode.removeChild(oldScript);
+	}
+	
+	newScript		= document.createElement("script");
+	newScript.id	= "scriptContainer";
+
+	newScript.text	= "function " + testFuncName + "(e){\n" + scriptText + "\n}";
+	document.body.appendChild(newScript);
+//
+/* 
+	var scriptText = $("#taFunc").val();
+	var scriptBlock = '<script type="text/javascript" id="scriptContainer">'+scriptText+'<\/script>';
+	
+	$("#scriptContainer").remove();
+	
+	$(scriptBlock).insertAfter('body');
+*/	
+	$("#demoTblBody input").each( inputsetResetAttrFuncCreator(testFuncOnEventKeyValue) );
+
+}
+
+function resetFunctionHandler()
+{
+	setTaFuncDefaultValue();
+	$("#demoTblBody input").each( inputsetResetAttrFuncCreator(defaultFuncOnEventKeyValue) );
+}
+
+function inputsetResetAttrFuncCreator(attrValue)
+{
+	var f = function()
+		{
+			for(var idx in HANDLED_EVENTS_ARR)
+			{
+				this.setAttribute("on"+HANDLED_EVENTS_ARR[idx], attrValue);
+			}
+		};
+	return f;
+}
+
+</script>
+</html>

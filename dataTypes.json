@@ -1,0 +1,102 @@
+﻿{
+  "dataTypes":[
+    {
+      "name":"float",
+      "invalidChars":"[^0-9\\-\\.]",
+      "validPattern":"^(\\-)?\\d*\\.?\\d*$",
+      "validValuePattern":"^(\\-)?\\d*\\.?\\d+$",
+      "formatDesc":"Any number"
+    },
+    {
+      "name":"integer",
+      "invalidChars":"[^0-9\\-]",
+      "validPattern":"^(\\-)?\\d*$",
+      "validValuePattern":"^(\\-)?\\d+$",
+      "formatDesc":"Integer"
+    },
+    {
+      "name":"noneNegativeInteger",
+      "invalidChars":"[^0-9]",
+      "validPattern":"^\\d*$",
+      "validValuePattern":"^\\d+$",
+      "formatDesc":"None negative integer"
+    },
+    {
+      "name":"ip",
+      "invalidChars":"[^0-9\\.]",
+      "validPattern":"^((2?((5?[0-5]?)|([0-4]?\\d?)))|([01]?\\d{0,2}))?(\\.)?((2?((5?[0-5]?)|([0-4]?\\d?)))|([01]?\\d{0,2}))?\\7?((2?((5?[0-5]?)|([0-4]?\\d?)))|([01]?\\d{0,2}))?\\7?((2?((5?[0-5]?)|([0-4]?\\d?)))|([01]?\\d{0,2}))?$",
+      "validValuePattern":"^((2((5[0-5])|([0-4]\\d)))|([01]?\\d{0,2}))(\\.)((2((5[0-5])|([0-4]\\d)))|([01]?\\d{0,2}))\\7((2((5[0-5])|([0-4]\\d)))|([01]?\\d{0,2}))\\7((2((5[0-5])|([0-4]\\d)))|([01]?\\d{0,2}))$",
+      "formatDesc":"IP address (ddd.ddd.ddd.ddd) eg: 127.0.0.1"
+    },
+    {
+      "name":"alpha",
+      "invalidChars":"[^a-zA-Z ]",
+      "validPattern":"^[a-zA-Z ]*$",
+      "validValuePattern":"^[a-zA-Z ]+$",
+      "formatDesc":"Alpha characters form A to Z, case insensitive. Including space."
+    },
+    {
+      "name":"alphanumeric",
+      "invalidChars":"[^a-zA-Z0-9 ]",
+      "validPattern":"^[a-zA-Z0-9 ]*$",
+      "validValuePattern":"^[a-zA-Z0-9 ]+$",
+      "formatDesc":"Alpha-numeric characters form A to Z and 0 to 9, case insensitive. Including space."
+    },
+    {
+      "name":"hebalpha",
+      "invalidChars":"[^\\u05d0-\\u05eaא-ת ]",
+      "validPattern":"^[\\u05d0-\\u05eaא-ת ]*$",
+      "validValuePattern":"^[\\u05d0-\\u05eaא-ת ]+$",
+	  "formatDesc":"Hebrew alpha characters form א to ת. Including space."
+    },
+    {
+      "name":"hebalphanumeric",
+      "invalidChars":"[^0-9\\u05d0-\\u05eaא-ת ]",
+      "validPattern":"^[0-9\\u05d0-\\u05eaא-ת ]*$",
+      "validValuePattern":"^[0-9\\u05d0-\\u05eaא-ת ]+$",
+      "formatDesc":"Hebrew alpha-numeric characters form א to ת and 0 to 9. Including space."
+    },
+    {
+      "name":"hebenalpha",
+      "invalidChars":"[^a-zA-Z\\u05d0-\\u05eaא-ת ]",
+      "validPattern":"^[a-zA-Z\\u05d0-\\u05eaא-ת ]*$",
+      "validValuePattern":"^[a-zA-Z\\u05d0-\\u05eaא-ת ]+$",
+      "formatDesc":"Hebrew alpha characters form א to ת. Including space."
+    },
+    {
+      "name":"hebenalphanumeric",
+      "invalidChars":"[^a-zA-Z0-9\\u05d0-\\u05eaא-ת ]",
+      "validPattern":"^[a-zA-Z0-9\\u05d0-\\u05eaא-ת ]*$",
+      "validValuePattern":"^[a-zA-Z0-9\\u05d0-\\u05eaא-ת ]+$",
+      "formatDesc":"Hebrew alpha-numeric characters form א to ת and 0 to 9. Including space."
+    },
+    {
+      "name":"date",
+      "invalidChars":"[^0-9\\/\\-]",
+      "validPattern":"^((0?[1-9]?)|([12]?\\d?)|(3?[01]?))?([\\-\\\/])?((0?[1-9]?)|(1?[0-2]?))?\\5?([0-2]?\\d{0,3})$",
+      "validValuePattern":"^((0[1-9])|([12]?\\d)|(3[01]))([\\-\\\/])((0?[1-9])|(1[0-2]))\\5([0-2]\\d{3})$",
+      "formatDesc":"Date (dd/mm/yyyy)"
+    },
+    {
+      "name":"timestamp",
+      "invalidChars":"[^0-9: ]",
+      "validPattern":"^([0-2]?\\d{0,3})?((0?[1-9]?)|(1?[0-2]?))?((0?[1-9]?)|([12]?\\d?)|(3?[01]?))?([ ])?(([01]?\\d?)|(2?[0-3]?))?(:)?([0-5]?\\d?)?(:)?([0-5]?\\d?)?$",
+      "validValuePattern":"^([0-2]\\d{3})((0[1-9])|(1[0-2]))((0[1-9])|([12]\\d)|(3[01]))([ ])(([01]\\d)|(2[0-3]))(:)([0-5]\\d)(:)([0-5]\\d)$",
+      "formatDesc":"Timestamp - date and time (yyyymmdd hh:mm:ss)"
+    },
+    {
+      "name":"time",
+      "invalidChars":"[^0-9:]",
+      "validPattern":"^(([01]?\\d?)|(2?[0-3]?))?(:)?([0-5]?\\d?)?(:)?([0-5]?\\d?)?$",
+      "validValuePattern":"^(([01]\\d)|(2[0-3]))(:)([0-5]\\d)(:)([0-5]\\d)$",
+      "formatDesc":"Time (hh:mm:ss)"
+    },
+    {
+      "name":"any",
+      "invalidChars":"[\\u0014]",
+      "validPattern":"[^\\u0014]",
+      "validValuePattern":"^[\\s\\S]*$",
+      "formatDesc":"Any and all characters"
+    } 
+  ]
+}
