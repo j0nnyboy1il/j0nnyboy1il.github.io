@@ -681,7 +681,7 @@ function DataTypes(input, stateChange)
 	{
 		if(this.isXmlStr(response) || (this.objectType(response)==XML_TYPE) )
 		{
-			this.loadXml(response);
+			this.loadXML(response);
 		}
 		else if(this.isJsonStr(response) || (this.objectType(response)==JSON_TYPE))
 		{
