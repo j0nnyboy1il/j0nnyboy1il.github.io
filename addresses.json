@@ -1,0 +1,10 @@
+[
+{"addressid":"8","firstname":"Sue","lastname":"Black","street":"1000 Michigan Ave.","city":"Chicago","state":"IL","zip":"60605"},
+{"addressid":"7","firstname":"James","lastname":"Blue","street":"1000 Harbor Ave.","city":"Seattle","state":"WA","zip":"98116"},
+{"addressid":"3","firstname":"Mike","lastname":"Brown","street":"3600 Delmar Blvd.","city":"St. Louis","state":"MO","zip":"63108"},
+{"addressid":"6","firstname":"Meg","lastname":"Gold","street":"1200 Stout St.","city":"Denver","state":"CO","zip":"80204"},
+{"addressid":"5","firstname":"John","lastname":"Gray","street":"500 South St.","city":"Philadelphia","state":"PA","zip":"19147"},
+{"addressid":"1","firstname":"Bob","lastname":"Green","street":"5 Bay St.","city":"San Francisco","state":"CA","zip":"94133"},
+{"addressid":"4","firstname":"Mary","lastname":"Green","street":"300 Massachusetts Ave.","city":"Boston","state":"MA","zip":"02115"},
+{"addressid":"2","firstname":"Liz","lastname":"White","street":"100 5th Ave.","city":"New York","state":"NY","zip":"10011"}
+]
