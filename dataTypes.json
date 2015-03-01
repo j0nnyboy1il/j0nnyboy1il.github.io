@@ -92,6 +92,13 @@
       "formatDesc":"Time (hh:mm:ss)"
     },
     {
+      "name":"phoneprfix",
+      "invalidChars":"[^\\d]",
+      "validPattern":"^0?(([02-689]?)|(5?[02-689]?)|(7?[2-46-8]?))$",
+      "validValuePattern":"^0(([02-689])|(5[02-689])|(7[2-46-8]))$",
+      "formatDesc":"None commercial phone area code"
+    },
+    {
       "name":"any",
       "invalidChars":"[\\u0014]",
       "validPattern":"[^\\u0014]",
